@@ -5,18 +5,9 @@ import Favorites from './Favorites';
 
 class App extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            value: ""
-        };
 
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange = (e) => {
-      this.setState({value: e.target.value})
-    };
+// Layers out foundations of application.
+// The search component is where the majority of the functionality is.
 
   render() {
     return (

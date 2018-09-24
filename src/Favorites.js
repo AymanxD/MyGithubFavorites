@@ -5,6 +5,8 @@ import Columns from './Columns';
 
 export default class Favorites extends Component {
 
+    // Component used to separate the sides of the applicaiton.
+
     render() {
         return (
             <div id="Favorites">

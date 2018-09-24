@@ -3,6 +3,9 @@ import {Table} from 'react-bootstrap';
 import './Columns.css';
 
 export default class Columns extends Component {
+
+    // Colums component reused on both sides of the application for adding and removing repositories.
+
     render() {
         return (
             <Table id="column-names">

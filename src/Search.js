@@ -7,6 +7,7 @@ const axios = require("axios");
 
 export default class Search extends Component {
 
+    // The state object is used throughout the program to edit, add and remove repositories.
     constructor(props){
         super(props);
         this.state = {
@@ -15,6 +16,8 @@ export default class Search extends Component {
             rawResults: [],
             rawFavorites: [],
             favorites: [],
+
+            // Add's a repository to the favorites list.
             addRepo: (key) => {
 
                 let addition = {
@@ -40,6 +43,8 @@ export default class Search extends Component {
 
 
             },
+
+            // Removes a repository from the favorites list
             removeRepo: (key) => {
 
                 this.state.favorites.splice(key, 1);
@@ -55,6 +60,7 @@ export default class Search extends Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
+    // Handles enter key press for input
     handleKeyPress = (event) => {
         if (event.which === 13) {
             event.preventDefault();
@@ -62,6 +68,7 @@ export default class Search extends Component {
         }
     };
 
+    // Saves entered value, and clears the search.
     handleChange = (e) => {
         this.setState({value: e.target.value});
 
@@ -70,6 +77,7 @@ export default class Search extends Component {
         }
     };
 
+    // Uses an axios REST API call to retrieve the names and languages of repositories.
     search = (e) => {
         this.setState({results: []});
 
@@ -77,6 +85,7 @@ export default class Search extends Component {
         axios.get('https://api.github.com/search/repositories?q=' + replacedSearch)
             .then((response) => {
 
+                // Retrieve only ten repositories.
                 let responseSlice = response.data.items.slice(0, 10);
                 this.setState({rawResults: responseSlice});
             })
@@ -89,8 +98,10 @@ export default class Search extends Component {
             });
     };
 
+    // Retrieves the latest tags of the repositories through another REST API call.
     searchTags = () => {
 
+        // For each of the ten repositories saved, retrieve it's tag if it exists.
         this.state.rawResults.forEach((element) => {
             let obj = {
                 name: element.name,
@@ -119,17 +130,6 @@ export default class Search extends Component {
         });
     };
 
-    componentDidMount(){
-
-        let form = document.getElementById("form");
-
-        form.addEventListener("keyup", (event) => {
-            event.preventDefault();
-            if(event.keyCode === 13){
-                this.search();
-            }
-        });
-    }
 
     render() {
         return (
