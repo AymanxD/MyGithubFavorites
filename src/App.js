@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Grid, Col, FormGroup, FormControl, Button} from 'react-bootstrap';
-import Columns from './Columns';
 import Search from './Search';
 import Favorites from './Favorites';
 
