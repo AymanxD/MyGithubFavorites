@@ -25,10 +25,7 @@ class App extends Component {
           <h1 className="App-title">My Github Favorites</h1>
         </header>
           <body>
-            <div id="Grid">
-                <Search/>
-                <Favorites/>
-            </div>
+            <Search/>
           </body>
       </div>
     );
@@ -36,26 +33,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-{/*<div id="left-grid">*/}
-    {/*<div id="search-grid">*/}
-        {/*<form>*/}
-            {/*<FormGroup*/}
-                {/*controlId="formBasicText"*/}
-            {/*>*/}
-                {/*<FormControl*/}
-                    {/*type="text"*/}
-                    {/*value={this.state.value}*/}
-                    {/*onChange={(e) => this.handleChange(e)}*/}
-                {/*/>*/}
-                {/*<FormControl.Feedback />*/}
-            {/*</FormGroup>*/}
-        {/*</form>*/}
-        {/*<Button>Default</Button>*/}
-    {/*</div>*/}
-    {/*<Columns/>*/}
-    {/*<div className="search-results">*/}
-
-    {/*</div>*/}
-{/*</div>*/}

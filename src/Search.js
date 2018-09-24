@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Search.css';
 import {Grid, Col, FormGroup, FormControl, Button} from 'react-bootstrap';
 import Columns from './Columns';
+import Favorites from './Favorites';
 const axios = require("axios");
 
 export default class Search extends Component {
@@ -10,15 +11,56 @@ export default class Search extends Component {
         super(props);
         this.state = {
             value: "",
-            column: "searchResults",
-            results: [{name: "hello", language: "mello", latest:"hello", link:"mello"}],
-            rawResults: []
+            results: [],
+            rawResults: [],
+            rawFavorites: [],
+            favorites: [],
+            addRepo: (key) => {
+
+                let addition = {
+                    name: this.state.results[key].name,
+                    language: this.state.results[key].language,
+                    tag: "",
+                    link: "Remove"
+                };
+
+                this.setState(prevState => ({
+                    rawFavorites: [...prevState.rawFavorites, addition]
+                }), () => {
+
+                    this.state.results[key].link = "";
+                    this.forceUpdate();
+
+                    if(this.state.rawFavorites.length > 1){
+                        this.setState({
+                            favorites: this.state.rawFavorites
+                        })
+                    }
+                });
+
+
+            },
+            removeRepo: (key) => {
+
+                this.state.favorites.splice(key, 1);
+                this.forceUpdate();
+
+                console.log(key)
+            }
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.search = this.search.bind(this);
         this.searchTags = this.searchTags.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
+
+    handleKeyPress = (event) => {
+        if (event.which === 13) {
+            event.preventDefault();
+            this.search();
+        }
+    };
 
     handleChange = (e) => {
         this.setState({value: e.target.value});
@@ -29,6 +71,7 @@ export default class Search extends Component {
     };
 
     search = (e) => {
+        this.setState({results: []});
 
         let replacedSearch = this.state.value.replace(" ", "+");
         axios.get('https://api.github.com/search/repositories?q=' + replacedSearch)
@@ -36,21 +79,17 @@ export default class Search extends Component {
 
                 let responseSlice = response.data.items.slice(0, 10);
                 this.setState({rawResults: responseSlice});
-                console.log(response.data.items);
             })
             .catch((error) => {
-                // handle error
-                console.log(error);
+
             })
             .then(() => {
-                // always executed
-                console.log(this.state.rawResults);
+
                 this.searchTags();
             });
     };
 
     searchTags = () => {
-        let resultsArray = [];
 
         this.state.rawResults.forEach((element) => {
             let obj = {
@@ -65,55 +104,57 @@ export default class Search extends Component {
                 if(typeof response.data[0].name !== "undefined"){
                     obj.tag = response.data[0].name;
                 }
-                resultsArray.push(obj);
 
                 this.setState(prevState => ({
                     results: [...prevState.results, obj]
                 }));
 
-                console.log(response.data);
             })
             .catch((error) => {
-                // handle error
-                resultsArray.push(obj);
 
                 this.setState(prevState => ({
                     results: [...prevState.results, obj]
                 }));
-
-                console.log(error);
             })
-            .then(() => {
-                // always executed
-                console.log(resultsArray);
-            });
-        });
-
-        this.setState({results: resultsArray}, () => {
-            console.log(this.state.results);
-            console.log(resultsArray);
         });
     };
 
+    componentDidMount(){
+
+        let form = document.getElementById("form");
+
+        form.addEventListener("keyup", (event) => {
+            event.preventDefault();
+            if(event.keyCode === 13){
+                this.search();
+            }
+        });
+    }
+
     render() {
         return (
-            <div className="App">
-                <div id="Search-Grid">
-                    <form id="Search">
-                        <FormGroup
-                            controlId="formBasicText"
-                        >
-                            <FormControl
-                                type="text"
-                                value={this.state.value}
-                                onChange={(e) => this.handleChange(e)}
-                            />
-                            <FormControl.Feedback />
-                        </FormGroup>
-                    </form>
-                    <Button id="Search-Button" onClick={this.search}>Search</Button>
+            <div id="Grid">
+                <div className="App">
+                    <div id="Search-Grid">
+                        <form id="Search">
+                            <FormGroup
+                                controlId="formBasicText"
+                                id="form"
+                            >
+                                <FormControl
+                                    type="text"
+                                    value={this.state.value}
+                                    onChange={(e) => this.handleChange(e)}
+                                    onKeyPress={(e) => this.handleKeyPress(e)}
+                                />
+                                <FormControl.Feedback />
+                            </FormGroup>
+                        </form>
+                        <Button id="Search-Button" onClick={this.search}>Search</Button>
+                    </div>
+                    <Columns input={this.state.results} action={this.state.addRepo.bind(this)}/>
                 </div>
-                <Columns columnType={this.state.column} input={this.state.results}/>
+                <Favorites favorites={this.state.favorites} remove={this.state.removeRepo.bind(this)}/>
             </div>
         );
     }

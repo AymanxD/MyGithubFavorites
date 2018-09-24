@@ -14,14 +14,14 @@ export default class Columns extends Component {
                         <th> </th>
                     </tr>
                 </thead>
-                <tbody id={this.props.columnType}>
-                        {this.props.input.map((input) => {
+                <tbody>
+                        {this.props.input.map((input, i) => {
                             return(
-                            <tr>
+                            <tr key={i}>
                                 <td>{input.name}</td>
                                 <td>{input.language}</td>
                                 <td>{input.tag}</td>
-                                <td><a>{input.link}</a></td>
+                                <td><a onClick={() => this.props.action(i)}>{input.link}</a></td>
                             </tr>
                             )
                         })}
