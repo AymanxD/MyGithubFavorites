@@ -1,14 +1,13 @@
 
-/*#column-names{*/
-    /*display: grid;*/
-    /*grid-template-columns: 25% 25% 25% 25%;*/
-    /*grid-template-rows: 100%;*/
-/*}*/
-
 td{
     text-align: left;
 }
 
 a{
     cursor: pointer;
+}
+
+.link a{
+    text-decoration: underline;
+    color: #8A2BE2;
 }

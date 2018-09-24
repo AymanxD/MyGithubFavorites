@@ -24,7 +24,7 @@ export default class Columns extends Component {
                                 <td>{input.name}</td>
                                 <td>{input.language}</td>
                                 <td>{input.tag}</td>
-                                <td><a onClick={() => this.props.action(i)}>{input.link}</a></td>
+                                <td className="link"><a onClick={() => this.props.action(i)}>{input.link}</a></td>
                             </tr>
                             )
                         })}
