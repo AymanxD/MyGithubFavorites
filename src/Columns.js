@@ -3,6 +3,9 @@ import {Table} from 'react-bootstrap';
 import './Columns.css';
 
 export default class Columns extends Component {
+
+    // Colums component reused on both sides of the application for adding and removing repositories.
+
     render() {
         return (
             <Table id="column-names">
@@ -14,7 +17,17 @@ export default class Columns extends Component {
                         <th> </th>
                     </tr>
                 </thead>
-                <tbody id={this.props.columnType}>
+                <tbody>
+                        {this.props.input.map((input, i) => {
+                            return(
+                            <tr key={i}>
+                                <td>{input.name}</td>
+                                <td>{input.language}</td>
+                                <td>{input.tag}</td>
+                                <td><a onClick={() => this.props.action(i)}>{input.link}</a></td>
+                            </tr>
+                            )
+                        })}
                 </tbody>
             </Table>
         );

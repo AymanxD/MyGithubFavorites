@@ -1,24 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Grid, Col, FormGroup, FormControl, Button} from 'react-bootstrap';
-import Columns from './Columns';
 import Search from './Search';
 import Favorites from './Favorites';
 
 class App extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            value: ""
-        };
 
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange = (e) => {
-      this.setState({value: e.target.value})
-    };
+// Layers out foundations of application.
+// The search component is where the majority of the functionality is.
 
   render() {
     return (
@@ -27,10 +16,7 @@ class App extends Component {
           <h1 className="App-title">My Github Favorites</h1>
         </header>
           <body>
-            <div id="Grid">
-                <Search/>
-                <Favorites/>
-            </div>
+            <Search/>
           </body>
       </div>
     );
@@ -38,26 +24,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-{/*<div id="left-grid">*/}
-    {/*<div id="search-grid">*/}
-        {/*<form>*/}
-            {/*<FormGroup*/}
-                {/*controlId="formBasicText"*/}
-            {/*>*/}
-                {/*<FormControl*/}
-                    {/*type="text"*/}
-                    {/*value={this.state.value}*/}
-                    {/*onChange={(e) => this.handleChange(e)}*/}
-                {/*/>*/}
-                {/*<FormControl.Feedback />*/}
-            {/*</FormGroup>*/}
-        {/*</form>*/}
-        {/*<Button>Default</Button>*/}
-    {/*</div>*/}
-    {/*<Columns/>*/}
-    {/*<div className="search-results">*/}
-
-    {/*</div>*/}
-{/*</div>*/}
